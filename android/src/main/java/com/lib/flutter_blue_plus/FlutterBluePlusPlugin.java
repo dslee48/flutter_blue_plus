@@ -2156,7 +2156,11 @@ public class FlutterBluePlusPlugin implements
                     // we cannot call 'close' for autoconnected devices
                     // because it prevents autoconnect from working
                     if (mAutoConnected.containsKey(remoteId)) {
-                        log(LogLevel.DEBUG, "autoconnect is true. skipping gatt.close()");
+                        if (mBluetoothAdapter.isEnabled() == false) {
+                            gatt.close();
+                        } else {
+                            log(LogLevel.DEBUG, "autoconnect is true. skipping gatt.close()");
+                        }
                     } else {
                         // it is important to close after disconnection, otherwise we will
                         // quickly run out of bluetooth resources, preventing new connections
