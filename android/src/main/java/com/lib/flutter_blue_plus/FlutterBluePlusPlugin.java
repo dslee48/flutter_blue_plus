@@ -730,6 +730,12 @@ public class FlutterBluePlusPlugin implements
 
                         // remember autoconnect
                         if (autoConnect) {
+                            BluetoothGatt duplicatedGatt = mAutoConnected.get(remoteId);
+                            if(duplicatedGatt != null) {
+                                duplicatedGatt.disconnect();
+                                duplicatedGatt.close();
+                                log(LogLevel.DEBUG, "duplicatedGatt: " + remoteId);
+                            }
                             mAutoConnected.put(remoteId, gatt);
                         } else {
                             mAutoConnected.remove(remoteId);
